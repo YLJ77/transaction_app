@@ -48,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String amountInput;
 */
   final List<Transaction> _userTransactions = [
+/*
     Transaction(
         id: 't1',
         title: 'meal',
@@ -60,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         amount: 185.4,
         date: DateTime.now()
     ),
+*/
   ];
   void _addTransaction(String title, double amount) {
     final newTx = Transaction(
