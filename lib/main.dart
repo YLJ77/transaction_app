@@ -49,7 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
   String amountInput;
 */
   final List<Transaction> _userTransactions = [
-/*
     Transaction(
         id: 't1',
         title: 'meal',
@@ -62,13 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
         amount: 185.4,
         date: DateTime.now()
     ),
-*/
   ];
 
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
-      tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
-    });
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
   }
   void _addTransaction(String title, double amount) {
     final newTx = Transaction(
@@ -100,9 +98,10 @@ class _MyHomePageState extends State<MyHomePage> {
             IconButton(icon: Icon(Icons.add), onPressed: () => _startAddNewTransaction(context),),
           ],
         ),
-        body:
-        SingleChildScrollView(
-          child: Column(children: <Widget>[
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
             Chart(_recentTransactions),
             // UserTransaction()
             TransactionList(_userTransactions)
