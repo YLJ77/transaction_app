@@ -89,6 +89,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ) ;
     });
   }
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id );
+    });
+  }
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -105,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
             Chart(_recentTransactions),
             // UserTransaction()
-            TransactionList(_userTransactions)
+            TransactionList(_userTransactions, _deleteTransaction)
           ],)
           ,),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
