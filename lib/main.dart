@@ -95,22 +95,30 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      // Here we take the value from the MyHomePage object that was created by
+      // the App.build method, and use it to set our appbar title.
+      title: Text('app bar'),
+      actions: <Widget>[
+        IconButton(icon: Icon(Icons.add), onPressed: () => _startAddNewTransaction(context),),
+      ],
+    );
+    final height = MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top;
     return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text('app bar'),
-          actions: <Widget>[
-            IconButton(icon: Icon(Icons.add), onPressed: () => _startAddNewTransaction(context),),
-          ],
-        ),
+        appBar: appBar,
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-            Chart(_recentTransactions),
+              Container(
+                height: height * 0.3,
+                child: Chart(_recentTransactions),
+              ),
             // UserTransaction()
-            TransactionList(_userTransactions, _deleteTransaction)
+              Container(
+                  height: height * 0.7,
+                  child: TransactionList(_userTransactions, _deleteTransaction)
+            ),
           ],)
           ,),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
