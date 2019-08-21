@@ -101,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
   Widget build(BuildContext context) {
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
       // Here we take the value from the MyHomePage object that was created by
       // the App.build method, and use it to set our appbar title.
@@ -110,13 +111,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
     final height = MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top;
+    final txList = Container(
+        height: height * 0.7,
+        child: TransactionList(_userTransactions, _deleteTransaction)
+    );
     return Scaffold(
-        appBar: appBar,
+    appBar: appBar,
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Row(
+              if (isLandscape) Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text('Show Chart'),
@@ -127,14 +132,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   })
                 ],
               ),
-              _showChart ? Container(
+              if (!isLandscape) Container(
+                height: height * 0.3,
+                child: Chart(_recentTransactions),
+              ),
+              if (!isLandscape) txList,
+              if (isLandscape) _showChart ? Container(
                 height: height * 0.7,
                 child: Chart(_recentTransactions),
-              ) : // UserTransaction()
-              Container(
-                  height: height * 0.7,
-                  child: TransactionList(_userTransactions, _deleteTransaction)
-            ),
+              ) : txList// UserTransaction()
           ],)
           ,),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -142,3 +148,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
