@@ -4,7 +4,8 @@ import 'package:money_dance/models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  TransactionList(this.transactions);
+  final Function deleteTx;
+  TransactionList(this.transactions, this.deleteTx);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +17,7 @@ class TransactionList extends StatelessWidget {
                   'No transactions added yet!',
                   style: Theme.of(context).textTheme.title,
                 ),
-                SizedBox( height: 20),
+                SizedBox(height: 20),
                 Container(
                     height: 200,
                     child: Image.asset(
@@ -28,6 +29,30 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (ctx, idx) {
                 return Card(
+                  margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  elevation: 5,
+                  child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: EdgeInsets.all(6.0),
+                          child: FittedBox(
+                            child: Text(
+                              transactions[idx].amount.toStringAsFixed(2),
+                            ),
+                          ),
+                        ),
+                      ),
+                      title: Text(transactions[idx].title,
+                          style: Theme.of(context).textTheme.title),
+                      subtitle: Text(DateFormat('yyyy-MM-dd').format(transactions[idx].date)),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        color: Theme.of(context).errorColor,
+                        onPressed: () => deleteTx(transactions[idx].id)),
+                      ),
+                );
+/*                 return Card(
                     child: Row(children: [
                       Container(
                           margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -52,7 +77,7 @@ class TransactionList extends StatelessWidget {
                                     .format(transactions[idx].date),
                                 style: TextStyle(color: Colors.grey))
                           ])
-                  ]));
+                  ])); */
               },
               itemCount: transactions.length,
             ),
