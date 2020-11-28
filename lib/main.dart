@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_dance/models/transaction.dart';
+import 'package:money_dance/widgets/chart.dart';
 import 'package:money_dance/widgets/new_transaction.dart';
 import 'package:money_dance/widgets/transaction_list.dart';
 
@@ -43,6 +44,12 @@ class _MyHomePageState extends State<MyHomePage> {
         id: 't2', title: 'New Ball', amount: 789.45, date: DateTime.now())
   ];
 
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
   void _addNewTransaction({String title, double amount}) {
     final newTx = Transaction(
         title: title,
@@ -80,15 +87,14 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Card(
-              child: Text('Chart'),
-              elevation: 5,
-            ),
-            // UserTransactions()
-            TransactionList(_transactions)
-          ],
+        child: Container(
+          width: double.infinity,
+          child: Column(
+            children: [
+              Chart(_recentTransactions),
+              TransactionList(_transactions)
+            ],
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
